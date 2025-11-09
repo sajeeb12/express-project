@@ -67,13 +67,15 @@ app.delete('/api/notes/:id',(request,response) => {
   response.status(204).end()
 })
 
-app.get('*', (req, res) => {
+
+// Catch-all route for SPA
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 const generateId = () => {
   const maxId = notes.length > 0 
-  ? Math.max(...note.map(n => Number(n.id))) : 0
+  ? Math.max(...notes.map(n => Number(n.id))) : 0
   return String(maxId + 1)
 }
 // const app = http.createServer((request, response) => {
