@@ -1,10 +1,13 @@
 const express = require('express')
 const cors = require('cors')
+const path = require('path');
 const http = require('http')
 const app = express()
 
+
 app.use(cors())
 app.use(express.json())
+app.use(express.static(path.join(__dirname, 'dist')));
 let notes = [
   {
     id: "1",
@@ -63,6 +66,11 @@ app.delete('/api/notes/:id',(request,response) => {
   notes = notes.filter(note => note.id !== id)
   response.status(204).end()
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 const generateId = () => {
   const maxId = notes.length > 0 
   ? Math.max(...note.map(n => Number(n.id))) : 0
